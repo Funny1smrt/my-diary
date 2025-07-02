@@ -1,12 +1,48 @@
-# React + Vite
+# 📝 My Diary – персональний щоденник
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**My Diary** — це вебдодаток, який дозволяє користувачам:
+- планувати щоденні задачі 🗂️
+- відстежувати витрати і доходи 💰
+- вести нотатки 🧠
+- мати особистий акаунт 🔐
+- зберігати все в хмарі (Firebase)
 
-Currently, two official plugins are available:
+## 🚀 Технології
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React + Vite
+- Firebase (Auth + Firestore)
+- Tailwind CSS
+- React Router
+- Context API + кастомні hooks
 
-## Expanding the ESLint configuration
+## 📦 Структура проєкту
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## 🔐 Аутентифікація
+
+- Firebase Auth (email/пароль)
+- Приватні маршрути захищені через `PrivateRoute`
+- Контекст `AuthContext` для глобального доступу до `user`
+
+## 📌 Задачі
+
+- CRUD: створення, редагування, видалення
+- Категорії, дедлайни, статуси
+- Збереження в Firebase
+
+## 💰 Фінанси
+
+- Витрати та доходи з категоріями
+- Автоматичний розрахунок залишку
+- Візуалізація через графіки (Recharts)
+
+## 📝 Нотатки
+
+- Markdown-підтримка
+- Локальне або хмарне збереження
+
+## 🌐 Запуск локально
+
+```bash
+npm install
+npm run dev
