@@ -1,7 +1,7 @@
 // pages/LoginForm.jsx
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase"; // шлях до твого firebase.js
+import { auth } from "../../backend/firebase"; // шлях до твого firebase.js
 
 import { useNavigate } from "react-router-dom";
 
@@ -21,8 +21,11 @@ function LoginForm() {
         }
 
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            navigate("/task"); // перенаправлення після входу
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const token = await userCredential.user.getIdToken();
+            // console.log("🔑 Firebase ID Token:", token);
+
+            navigate("/tasks"); // Перенаправлення на головну сторінку після входу
         } catch (error) {
             setErrorMsg("Невірний email або пароль");
         }

@@ -8,8 +8,9 @@ function App() {
     <TaskProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/task" element={<TaskDashboard />} />
+        <Route path="/" element={<Login />} />
+          {/* Uncomment the following line when TaskDashboard is ready */}
+          <Route path="/tasks" element={<TaskDashboard />} />
           {/* Add more routes as needed */}
         </Routes>
       </Router>

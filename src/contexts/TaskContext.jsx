@@ -1,22 +1,19 @@
-import { createContext, useState } from "react";
+// import { createContext, useEffect, useState } from "react";
+// import { auth } from "../backend/firebase";
+// import { onAuthStateChanged } from "firebase/auth";
 
-export const TaskContext = createContext();
+// export const TaskContext = createContext();
 
-export const TaskProvider = ({ children }) => {
-    const [tasks, setTasks] = useState([]);
+// export const TaskProvider = ({ children }) => {
+//     const [tasks, setTasks] = useState([]);
+//     const [loading, setLoading] = useState(true);
+//     const [user, setUser] = useState(null);
 
-    const addTask = (task) => {
-        setTasks((prevTasks) => [...prevTasks, task]);
-    };
 
-    const removeTask = (taskId) => {
-        setTasks((prevTasks) => prevTasks.filter(task => task.id !== taskId));
-    };
 
-    return (
-        <TaskContext.Provider value={{ tasks, addTask, removeTask }}>
-            {children}
-        </TaskContext.Provider>
-    );
-}
-
+//     return (
+//         <TaskContext.Provider value={{ tasks, addTask, removeTask, loading }}>
+//             {children}
+//         </TaskContext.Provider>
+//     );
+// };
