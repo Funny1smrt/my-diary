@@ -1,13 +1,25 @@
-// // firebase-admin.js
-// import admin from "firebase-admin";
-// import fs from "fs";
+// src/backend/firebase-admin.js
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { initializeApp, cert } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
 
-// const serviceAccount = JSON.parse(
-//   fs.readFileSync("./firebase-service.json", "utf-8")
-// );
+// потрібно для __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-// });
+// читаємо JSON-файл з ключем
+const serviceAccount = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, "./firebase-service.json"), "utf8")
+);
 
-// export default admin;
+// ініціалізація Firebase Admin SDK
+const app = initializeApp({
+  credential: cert(serviceAccount),
+});
+
+// отримуємо доступ до Auth
+const adminAuth = getAuth(app);
+
+export default adminAuth;

@@ -1,24 +1,18 @@
 @import "tailwindcss";
-:root {
-  --primary: #4a90e2;
-    --secondary: #50e3c2;
-    --bg: #f5f7fa;
-    --text: #4a4a4a;
-    --border: #dcdcdc;
-    --error: #e74c3c;
-    --success: #2ecc71;
-    --warning: #f39c12;
-    --info: #3498db;
-    --light: #ecf0f1;
-    --dark: #2c3e50;
-    --hover: #f0f0f0;
-    --active: #dcdcdc;
-    --disabled: #bdc3c7;
-    --bg-button: #34db50;
-    --bg-h-button: #2ecc71;
-    --bg-a-button: #27ae60;
-    --text-button: #ffffff;
-    --bg-input: #ffffff;
-    --text-input: #0080ff;
-    --bg-card: #ddf7de;
+@layer base {
+  body {
+    background-color: #f3f4f6;
+    color: #111827;
+  }
+}
+@layer components {
+  .container {
+    @apply flex flex-col items-center justify-start border border-gray-200 rounded-lg shadow-md p-6;
+  }
+  .input {
+    @apply w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+  .button {
+    @apply bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
 }

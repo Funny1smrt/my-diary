@@ -1,25 +1,16 @@
 import express from "express";
-import sql from "./db.js"; // Підключаємо базу
+import tasksRoutes from "./routes/tasks.js";
+import cors from "cors";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
-sql`SELECT NOW()`
-  .then((res) => {
-    console.log("🟢 Підключення до БД OK:", res);
-  })
-  .catch((err) => {
-    console.error("❌ Помилка підключення до БД:", err);
-  });
-
-
+app.use("/api/tasks", tasksRoutes); // підключення роуту
 app.get("/", (req, res) => {
-  res.send("✅ Сервер працює! Привіт з бекенду 👋");
+  res.send("✅ Сервер працює! Спробуй /api/tasks або інші API");
 });
-app.get("/api/time", async (req, res) => {
-  const result = await sql`SELECT NOW()`;
-  res.json({ now: result[0].now });
-});
-app.listen(process.env.PORT, () => {
-  console.log("✅ Сервер запущено на http://localhost:" + process.env.PORT);
+
+app.listen(3000, () => {
+  console.log("✅ Сервер запущено на http://localhost:3000");
 });

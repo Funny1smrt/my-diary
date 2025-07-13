@@ -1,4 +1,4 @@
-// import useTasks from '../../hooks/useTasks';
+import useTasks from '../../hooks/useTasks';
 import { useState } from 'react';
 
 function TaskInputForm() {
@@ -15,16 +15,16 @@ function TaskInputForm() {
   };
 
   return (
-    <div className="flex gap-2 mt-4">
+    <div className="">
       <input
         type="text"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         placeholder="Введіть завдання"
-        className="border p-2 flex-1"
+        className="input"
       />
       <button
-        className="bg-green-500 text-white px-4 py-2 rounded"
+        className="button"
         onClick={handleAdd}
       >
         Додати завдання

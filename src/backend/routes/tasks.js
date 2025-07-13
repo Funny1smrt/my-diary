@@ -1,67 +1,59 @@
-// import express from "express";
-// import sql from "../db.js";
-// import { verifyToken } from "../authMiddleware.js";
+import express from "express";
+import sql from "../db.js";
+import authMiddleware from "./authMiddleware.js";
 
-// const router = express.Router();
+const router = express.Router();
 
-// // GET /api/tasks
-// router.get("/", verifyToken, async (req, res) => {
-//   const { uid } = req.user;
+// Отримати задачі для користувача
+router.get("/", authMiddleware, async (req, res) => {
+  const userId = req.user.uid;
+  const tasks = await sql`SELECT * FROM tasks WHERE user_id = ${userId}`;
+  res.json(tasks);
+});
 
-//   const tasks = await sql`
-//     SELECT * FROM tasks
-//     WHERE user_id = ${uid}
-//     ORDER BY created_at DESC
-//   `;
+// Додати нову задачу
+router.post("/", authMiddleware, async (req, res) => {
+  const userId = req.user.uid;
+  const { title } = req.body;
+  const result = await sql`
+    INSERT INTO tasks (user_id, title) 
+    VALUES (${userId}, ${title}) 
+    RETURNING *`;
+  res.status(201).json(result[0]);
+});
 
-//   res.json(tasks);
-// });
+// Видалити задачу
+router.delete("/:id", authMiddleware, async (req, res) => {
+  const userId = req.user.uid;
+  const taskId = req.params.id;
+  await sql`DELETE FROM tasks WHERE id = ${taskId} AND user_id = ${userId}`;
+  res.status(204).send();
+});
 
-// // POST /api/tasks
-// router.post("/", verifyToken, async (req, res) => {
-//   const { title } = req.body;
-//   const { uid } = req.user;
+router.patch("/:id", authMiddleware, async (req, res) => {
+  const userId = req.user.uid;
+  const taskId = req.params.id;
+  const { status } = req.body;
 
-//   if (!title || !uid) return res.status(400).send("Missing title or user");
+  try {
+    const result = await sql`
+      UPDATE tasks
+      SET status = ${status}
+      WHERE id = ${taskId} AND user_id = ${userId}
+      RETURNING *`;
 
-//   const [task] = await sql`
-//     INSERT INTO tasks (id, user_id, title)
-//     VALUES (${crypto.randomUUID()}, ${uid}, ${title})
-//     RETURNING *
-//   `;
+    if (result.length === 0) {
+      return res.status(404).json({ error: "Задачу не знайдено" });
+    }
+    res.json(result[0]);
+    console.log("✅ Змінено статус задачі:", result[0]);
 
-//   res.status(201).json(task);
-// });
+  } catch (err) {
+    console.error("❌ Помилка при оновленні статусу:", err.message);
+    res.status(500).json({ error: "Внутрішня помилка сервера" });
+  }
+});
 
-// // PUT /api/tasks/:id
-// router.put("/:id", verifyToken, async (req, res) => {
-//   const { id } = req.params;
-//   const { title } = req.body;
-//   const { uid } = req.user;
+    
 
-//   const [task] = await sql`
-//     UPDATE tasks SET title = ${title}
-//     WHERE id = ${id} AND user_id = ${uid}
-//     RETURNING *
-//   `;
-
-//   if (!task) return res.status(404).json({ error: "Задачу не знайдено" });
-
-//   res.json(task);
-// });
-
-// // DELETE /api/tasks/:id
-// router.delete("/:id", verifyToken, async (req, res) => {
-//   const { id } = req.params;
-//   const { uid } = req.user;
-
-//   const result = await sql`
-//     DELETE FROM tasks WHERE id = ${id} AND user_id = ${uid}
-//   `;
-
-//   if (result.count === 0) return res.status(404).send("Задача не знайдена");
-
-//   res.sendStatus(204);
-// });
-
-// export default router;
+export default router;
