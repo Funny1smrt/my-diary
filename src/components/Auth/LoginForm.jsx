@@ -1,8 +1,6 @@
-// pages/LoginForm.jsx
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../backend/firebase"; // шлях до твого firebase.js
-
+import { auth } from "../../backend/firebase";
 import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
@@ -22,19 +20,17 @@ function LoginForm() {
 
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            const token = await userCredential.user.getIdToken();
-            // console.log("🔑 Firebase ID Token:", token);
-
-            navigate("/tasks"); // Перенаправлення на головну сторінку після входу
+            await userCredential.user.getIdToken(); // можна зберегти токен, якщо потрібно
+            navigate("/tasks");
         } catch (error) {
             setErrorMsg("Невірний email або пароль");
         }
     };
 
     return (
-        <div className="flex flex-col justify-center items-center min-w-fit min-h-fit p-6 bg-(--bg-card) border rounded">
-            <h2 className="text-2xl font-bold mb-4 text-(--text)">Вхід</h2>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-80" autoComplete="on">
+        <div className="flex flex-col justify-center items-center min-h-screen p-6 bg-[var(--bg-card)] border rounded shadow-md">
+            <h2 className="text-2xl font-bold mb-4">Вхід</h2>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-xs" autoComplete="on">
                 <input
                     type="email"
                     placeholder="Email"
@@ -42,7 +38,6 @@ function LoginForm() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-
                 <input
                     type="password"
                     placeholder="Пароль"
@@ -51,14 +46,15 @@ function LoginForm() {
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
-                {errorMsg && <p className="text-(--error)">{errorMsg}</p>}
+                {errorMsg && <p className="text-red-500 text-sm">{errorMsg}</p>}
 
                 <button
                     type="submit"
-                    className="bg-(--bg-button) text-white p-2 rounded hover:bg-(--bg-h-button) transition-colors duration-200"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
                 >
                     Увійти
                 </button>
+
                 <button
                     type="button"
                     onClick={() => {
@@ -66,11 +62,10 @@ function LoginForm() {
                         setPassword("");
                         setErrorMsg("");
                     }}
-                    className="border m-auto w-fit p-1 rounded text-(--text)"
+                    className="border border-gray-400 p-1 rounded text-sm hover:bg-gray-100"
                 >
                     Очистити
                 </button>
-
             </form>
         </div>
     );

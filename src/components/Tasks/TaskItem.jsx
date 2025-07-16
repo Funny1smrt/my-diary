@@ -11,10 +11,11 @@ function TaskItem({ task, onDelete, onStatusChange }) {
     };
 
     return (
-        <li key={task.id} className="flex justify-between gap-3 items-center border-b py-2">
-            <span>{task.title}</span>
+        <div  className="flex justify-between gap-3 items-center border-b py-2">
+            <p>{task.title}</p>
             
             <select
+                name="taskStatus"
                 value={task.status ?? "todo"} // ✅ якщо status не вказано — буде "todo"
                 onChange={(e) => onStatusChange(e.target.value)}
             >
@@ -36,7 +37,7 @@ function TaskItem({ task, onDelete, onStatusChange }) {
                     "Видалити"
                 )}
             </button>
-        </li>
+        </div>
     );
 }
 
